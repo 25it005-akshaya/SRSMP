@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scholarship Management System</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+        }
+        header {
+            background: linear-gradient(45deg, #4b79ff, #6affd2);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        nav {
+            background: #ffffff;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+        }
+        nav a {
+            text-decoration: none;
+            padding: 10px 18px;
+            background: #4b79ff;
+            color: white;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        nav a:hover {
+            background: #335de8;
+        }
+        .hero {
+            background: url('https://picsum.photos/1200/400') center/cover no-repeat;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px #000;
+        }
+        .container {
+            padding: 30px;
+            max-width: 1000px;
+            margin: auto;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 3px 15px rgba(0,0,0,0.1);
+        }
+        .btn {
+            background: #4b79ff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #2e4dcc;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        footer {
+            background: #4b79ff;
+            text-align: center;
+            color: white;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>Scholarship Management System</header>
+    <nav>
+        <a href="#apply">Apply Scholarship</a>
+        <a href="#status">Check Status</a>
+        <a href="#about">About</a>
+    </nav>
+    <div class="hero">Empowering Students Through Scholarships</div>
+
+    <div class="container">
+
+        <div id="apply" class="card">
+            <h2>Apply for Scholarship</h2>
+            <label>Full Name</label>
+            <input type="text" id="name" placeholder="Enter your name" />
+
+            <label>Department</label>
+            <select id="department">
+                <option value="CSE">CSE</option>
+                <option value="IT">IT</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+            </select>
+
+            <label>CGPA</label>
+            <input type="number" id="cgpa" step="0.1" min="0" max="10" />
+
+            <button class="btn" onclick="applyScholarship()">Submit Application</button>
+            <p id="applyMsg" style="margin-top:10px;font-weight:bold;"></p>
+        </div>
+
+        <div id="status" class="card">
+            <h2>Check Scholarship Status</h2>
+            <label>Enter your Name</label>
+            <input type="text" id="checkName" placeholder="Enter name" />
+            <button class="btn" onclick="checkStatus()">Check</button>
+            <p id="statusMsg" style="margin-top:10px;font-weight:bold;"></p>
+        </div>
+
+        <div id="about" class="card">
+            <h2>About Scholarship Portal</h2>
+            <p>This Scholarship Management System helps students apply for scholarships easily and check their results online. The system is created as a mini project for college students.</p>
+            <img src="https://picsum.photos/600/250" width="100%" style="border-radius:10px;" />
+        </div>
+
+    </div>
+
+    <footer>© 2025 Scholarship Management System | Mini Project</footer>
+
+    <script>
+        let database = {};
+
+        function applyScholarship() {
+            let name = document.getElementById('name').value;
+            let department = document.getElementById('department').value;
+            let cgpa = document.getElementById('cgpa').value;
+            let msg = document.getElementById('applyMsg');
+
+            if (name === '' || cgpa === '') {
+                msg.innerHTML = 'Please fill all details!';
+                msg.style.color = 'red';
+                return;
+            }
+
+            database[name.toLowerCase()] = {
+                dept: department,
+                cgpa: cgpa,
+                status: cgpa >= 7 ? 'Approved' : 'Rejected'
+            };
+
+            msg.innerHTML = 'Application Submitted Successfully!';
+            msg.style.color = 'green';
+        }
+
+        function checkStatus() {
+            let name = document.getElementById('checkName').value.toLowerCase();
+            let msg = document.getElementById('statusMsg');
+
+            if (database[name]) {
+                msg.innerHTML = 'Status: ' + database[name].status;
+                msg.style.color = database[name].status === 'Approved' ? 'green' : 'red';
+            } else {
+                msg.innerHTML = 'No application found!';
+                msg.style.color = 'orange';
+            }
+        }
+    </script>
+</body>
+</html>
